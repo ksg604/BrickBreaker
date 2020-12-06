@@ -3,6 +3,7 @@ package src.main.java;
 import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Component;
 import javax.swing.JPanel;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,7 +28,10 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         
     }
 
+    @Override
     public void paint(Graphics g) {
+        // TODO Auto-generated method stub
+        super.paint(g);
 
         // Paint background
         g.setColor(Color.black);
@@ -52,7 +56,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        repaint();
+        
     }
 
     @Override
