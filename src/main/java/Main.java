@@ -1,9 +1,7 @@
 package src.main.java;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 import java.util.logging.Logger;
 
 

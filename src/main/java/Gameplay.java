@@ -3,16 +3,26 @@ package src.main.java;
 import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Component;
-import javax.swing.JPanel;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class Gameplay extends JPanel implements KeyListener, ActionListener {
+import javax.swing.Action;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.Timer;
+
+import java.util.logging.Logger;
+
+
+public class Gameplay extends JPanel implements ActionListener{
+
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     private Boolean play = false;
     private int numBricks = 21;
     private int score = 0;
+    private int delay = 8;
 
     private int playerPosX = 310;
     private int ballPosX = 120;
@@ -22,16 +32,48 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
 
     public Gameplay() {
-        addKeyListener(this);
-        setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
+        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = getActionMap();
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "A");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "D");
+
+        Action moveLeftAction = new AbstractAction() {
         
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                
+                LOGGER.info("Moved left");
+                moveLeft();
+                repaint();
+            }
+        };
+
+        Action moveRightAction = new AbstractAction(){
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                
+                LOGGER.info("Moved right");
+                moveRight();
+                repaint();
+            }
+        };
+
+        am.put("LEFT", moveLeftAction);
+        am.put("RIGHT", moveRightAction);
+        am.put("A", moveLeftAction);
+        am.put("D", moveRightAction);
+        
+        setFocusable(true);
+        requestFocusInWindow();
     }
 
     @Override
     public void paint(Graphics g) {
-        // TODO Auto-generated method stub
-        super.paint(g);
 
         // Paint background
         g.setColor(Color.black);
@@ -49,54 +91,31 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
         // Paint ball
         g.setColor(Color.yellow);
-        g.fillRect(ballPosX, ballPosY, 20, 20);
+        g.fillOval(ballPosX, ballPosY, 20, 20);
+
+        g.dispose();
 
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (playerPosX >= 600) {
-                playerPosX = 600;
-            } else {
-                moveRight();
-            }
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (playerPosX <= 10) {
-                playerPosX = 0;
-            } else {
-                moveLeft();
-            }
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
     public void moveRight() {
-        play = true;
-        playerPosX += 20;
+        if ( playerPosX >= 600 ) {
+            playerPosX = 600;
+        } else {
+            playerPosX += 20;
+        }
     }
     public void moveLeft() {
-        play = true;
-        playerPosX -= 20;
+        if ( playerPosX <= 10 ) {
+            playerPosX = 10;
+        } else {
+            playerPosX -= 20;
+        }
     }
 
 }
