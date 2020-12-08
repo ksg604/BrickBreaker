@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class Gameplay extends JPanel implements ActionListener{
 
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Gameplay.class.getName());
 
     private Boolean play = false;
     private int numBricks = 21;
@@ -32,6 +32,7 @@ public class Gameplay extends JPanel implements ActionListener{
 
 
     public Gameplay() {
+        Timer gameTimer = new Timer(0, this);
         InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = getActionMap();
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
