@@ -20,6 +20,7 @@ public class Gameplay extends JPanel implements ActionListener{
     private static final Logger LOGGER = Logger.getLogger(Gameplay.class.getName());
 
     private Boolean play = false;
+
     private int numBricks = 21;
     private int score = 0;
     private int delay = 8;
@@ -27,18 +28,20 @@ public class Gameplay extends JPanel implements ActionListener{
     private int playerPosX = 310;
     private int ballPosX = 120;
     private int ballPosY = 350;
-    private int ballDirX = -1;
-    private int ballDirY = -2;
+    private int ballXDir = -1;
+    private int ballYDir = -2;
 
     private Timer timer;
 
 
     public Gameplay() {
-        Timer gameTimer = new Timer(0, this);
         
         setKeyBindings();
         setFocusable(true);
         requestFocusInWindow();
+        timer = new Timer(delay, this);
+        timer.start();
+        play = true;
     }
 
     @Override
@@ -69,9 +72,23 @@ public class Gameplay extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
+
         timer.start();
-        LOGGER.info("aight");
-        
+
+        if ( play != null && play ) {
+            ballPosX += ballXDir;
+            ballPosY += ballYDir;
+
+            if ( ballPosX < 0 ) {
+                ballPosX = -ballPosX;
+            }
+            if ( ballPosY < 0 ) {
+                ballPosY = -ballPosY;
+            }
+            
+        } 
+
+        repaint();
     }
 
     private void moveRight() {
