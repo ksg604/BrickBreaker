@@ -30,45 +30,13 @@ public class Gameplay extends JPanel implements ActionListener{
     private int ballDirX = -1;
     private int ballDirY = -2;
 
+    private Timer timer;
+
 
     public Gameplay() {
         Timer gameTimer = new Timer(0, this);
-        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = getActionMap();
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "A");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "D");
-
-        Action moveLeftAction = new AbstractAction() {
         
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                
-                LOGGER.info("Moved left");
-                moveLeft();
-                repaint();
-            }
-        };
-
-        Action moveRightAction = new AbstractAction(){
-        
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                
-                LOGGER.info("Moved right");
-                moveRight();
-                repaint();
-            }
-        };
-
-        am.put("LEFT", moveLeftAction);
-        am.put("RIGHT", moveRightAction);
-        am.put("A", moveLeftAction);
-        am.put("D", moveRightAction);
-        
+        setKeyBindings();
         setFocusable(true);
         requestFocusInWindow();
     }
@@ -101,22 +69,63 @@ public class Gameplay extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
+        timer.start();
+        LOGGER.info("aight");
         
     }
 
-    public void moveRight() {
+    private void moveRight() {
         if ( playerPosX >= 600 ) {
             playerPosX = 600;
         } else {
             playerPosX += 20;
         }
     }
-    public void moveLeft() {
+    private void moveLeft() {
         if ( playerPosX <= 10 ) {
             playerPosX = 10;
         } else {
             playerPosX -= 20;
         }
+    }
+
+    private void setKeyBindings() {
+        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = getActionMap();
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "LEFT");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "RIGHT");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "A");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "D");
+
+        Action moveLeftAction = new AbstractAction() {
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                
+                LOGGER.info("Moved left");
+                moveLeft();
+                repaint();
+            }
+        };
+
+        Action moveRightAction = new AbstractAction(){
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                
+                LOGGER.info("Moved right");
+                moveRight();
+                repaint();
+                
+            }
+        };
+
+        am.put("LEFT", moveLeftAction);
+        am.put("RIGHT", moveRightAction);
+        am.put("A", moveLeftAction);
+        am.put("D", moveRightAction);
     }
 
 }
