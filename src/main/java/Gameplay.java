@@ -3,6 +3,8 @@ package src.main.java;
 import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Graphics2D;
 
 import javax.swing.Action;
 import javax.swing.AbstractAction;
@@ -32,10 +34,12 @@ public class Gameplay extends JPanel implements ActionListener{
     private int ballYDir = -2;
 
     private Timer timer;
+    private MapGenerator map;
 
 
     public Gameplay() {
         
+        map = new MapGenerator(3,7);
         setKeyBindings();
         setFocusable(true);
         requestFocusInWindow();
@@ -57,6 +61,9 @@ public class Gameplay extends JPanel implements ActionListener{
         g.fillRect(0, 0, 692, 3);
         g.fillRect(691, 0, 3, 592);
 
+        // Paint bricks
+        map.draw((Graphics2D)g);
+
         // Paint player
         g.setColor(Color.green);
         g.fillRect(playerPosX, 550, 100, 8);
@@ -76,16 +83,23 @@ public class Gameplay extends JPanel implements ActionListener{
         timer.start();
 
         if ( play != null && play ) {
+
+            if ( new Rectangle(ballPosX, ballPosY, 20, 20).intersects(new Rectangle(playerPosX, 550, 100, 8))) {
+                ballYDir = -ballYDir;
+            }
+
             ballPosX += ballXDir;
             ballPosY += ballYDir;
 
             if ( ballPosX < 0 ) {
-                ballPosX = -ballPosX;
+                ballXDir = -ballXDir;
             }
             if ( ballPosY < 0 ) {
-                ballPosY = -ballPosY;
+                ballYDir = -ballYDir;
             }
-            
+            if ( ballPosX > 670 ) {
+                ballXDir = -ballXDir;
+            } 
         } 
 
         repaint();
