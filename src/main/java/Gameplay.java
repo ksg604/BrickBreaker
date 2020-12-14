@@ -78,6 +78,18 @@ public class Gameplay extends JPanel implements ActionListener{
         g.setColor(Color.yellow);
         g.fillOval(ballPosX, ballPosY, 20, 20);
 
+        if ( numBricks <= 0 ) {
+            play = false;
+            ballXDir = 0;
+            ballYDir = 0;
+            g.setColor(Color.red);
+            g.setFont(new Font("SERIF", Font.BOLD, 30));
+            g.drawString("You Win, Score: "+score, 190, 300);
+
+            g.setFont(new Font("SERIF", Font.BOLD, 20));
+            g.drawString("Press Enter to Restart ", 230, 330);
+        }
+
         if ( ballPosY > 570 ) {
             play = false;
             ballXDir = 0;
@@ -87,7 +99,7 @@ public class Gameplay extends JPanel implements ActionListener{
             g.drawString("Game Over, Score: "+score, 190, 300);
 
             g.setFont(new Font("SERIF", Font.BOLD, 20));
-            g.drawString("Press Enter to Restart ", 230, 300);
+            g.drawString("Press Enter to Restart ", 230, 330);
         }
 
         g.dispose();
