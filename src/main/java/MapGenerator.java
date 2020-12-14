@@ -37,6 +37,14 @@ public class MapGenerator {
         }
     }
 
+    public int getBrickHeight() {
+        return brickHeight;
+    }
+
+    public int getBrickWidth() {
+        return brickWidth;
+    }
+
     public void setBrickValue(int value, int row, int col) {
         map[row][col] = value;
     }
